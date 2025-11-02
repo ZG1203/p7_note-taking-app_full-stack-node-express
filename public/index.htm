@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To to list</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container w-100 text-center">
+        <h1>Quick Notes</h1>
+    </div>
+    <!-- add new notes section -->
+    <div class="container w-100">
+        <div class="add-note-section">
+            <h4 class="mt-1 mb-0 p-3 bg-primary rounded-top-4">Add a New Note</h4>
+            <form class="bg-white p-3 border rounded-bottom-4">
+                <div class="row">
+                    <div class="col-md-3 mt-2">
+                        <label for="fillDate" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="fillDate" required>
+                    </div>
+                    <div class="col-md-9 mt-2">
+                        <label for="inputNoteDetail" class="form-label">Detail</label>
+                        <input type="text" class="form-control w-100" id="inputNoteDetail" placeholder="Enter note details" required>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <button type="submit" class="btn btn-add btn-primary" id="addButton">Add Note</button>
+                </div>
+            </form>
+        </div>
+    </div>
+  
+    <!--view, edit and delete note section  -->
+    <div class="container w-100 mt-3">
+        <div class="mt-1 mb-0 p-3 bg-primary rounded-top-4">
+            <div class="row align-items-center">
+                <h4>All Notes</h4>
+            </div>
+        </div>
+        <div class="card rounded-top-0 rounded-bottom-4">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" width="10%">ID</th>
+                                <th scope="col" width="15%">Date</th>
+                                <th scope="col" width="45%">Note</th>
+                                <th scope="col" width="10%">Delete</th>
+                                <th scope="col" width="10%">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="note-list">
+                            <tr>
+                                <th scope="row" class="note-ID">1</th>
+                                <td>11/10/2025</td>
+                                <td class="note-detail">Draft project plan</td>
+                                <td>
+                                    <div class="button-container">
+                                        <button class="btn btn-edit btn-sm btn-primary w-100 deleteButton" onclick="deleteRecord(this)">Delete</button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="button-container">
+                                        <button class="btn btn-delete btn-sm btn-primary w-100 editButton" onclick="editRecord(this)">Edit</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="note-ID">2</th>
+                                <td>12/10/2025</td>
+                                <td class="note-detail">Create page html</td>
+                                <td>
+                                    <div class="button-container">
+                                        <button class="btn btn-edit btn-sm btn-primary w-100 deleteButton" onclick="deleteRecord(this)">Delete</button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="button-container">
+                                        <button class="btn btn-delete btn-sm btn-primary w-100 editButton" onclick="editRecord(this)">Edit</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div> 
+        </div>   
+    </div>
+
+</body>
+<script src="./script.js"></script>
+
+</html>
