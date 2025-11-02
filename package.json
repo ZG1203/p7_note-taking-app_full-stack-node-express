@@ -1,0 +1,24 @@
+{
+  "name": "p7_note-taking-app_full-stack-node-express",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/ZG1203/p7_note-taking-app_full-stack-node-express#readme",
+  "bugs": {
+    "url": "https://github.com/ZG1203/p7_note-taking-app_full-stack-node-express/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZG1203/p7_note-taking-app_full-stack-node-express.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
