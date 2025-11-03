@@ -43,8 +43,37 @@ app.get("/data", (req, res) => {
   res.json(data);
 });
 
+// Handle POST request to save new note
+app.post("/data", (req, res) => {
+  const currentData = readData();
+  const newNoteId = currentData.length > 0 ? Math.max(...currentData.map(n => n.id)) + 1 : 1;
+  const newData = { id: newNoteId, ...req.body };
+  currentData.push(newData);
+  writeData(currentData);
+  res.json({ message: "Data saved successfully", data: newData });
+});
+
+// add a row to the note table, get the last note ID and use next sequential number as note ID
+function nextNoteId () {
+    const noteIdList = document.querySelectorAll(".note-ID");
+    const noteIdValues = []
+    for (let i=0; i < noteIdList.length; i++) {
+        noteIdValues.push(parseInt(noteIdList[i].textContent))
+    };
+    let newNoteID = 0
+    if (noteIdList.length === 0) {
+        newNoteID = 1
+    } else { 
+        const maxNoteID = Math.max(...noteIdValues);
+        newNoteID = maxNoteID+1;
+    }
+    return newNoteID
+}
+
+
 
 // Start the server and listen on the specified port
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
