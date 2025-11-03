@@ -98,31 +98,25 @@ function checkNoteDetail () {
     }
 }
 
-
-
-
-
-
-
-
-
-
-// add button click trigger, and stop page reload
-// const addButton = document.getElementById("addButton");
-// addButton.addEventListener("click", function(e) {
-//     e.preventDefault();
-//     addRecord(); 
-//     }
-// );
-
-
-// 3. delete button - when click delete button, delete the record from list
-// function deleteRecord(button) {
-//     const buttonElement = button.parentElement; 
-//     const tableElement = buttonElement.parentElement;
-//     const recordRow = tableElement.parentElement;
-//     recordRow.remove();
-// }
+// delete button - when click delete button, delete the record from json
+async function deleteRecord(button) {
+    const buttonElement= button.parentElement; 
+    const tableElement = buttonElement.parentElement;
+    const recordRow = tableElement.parentElement;
+    const idElement = recordRow.querySelector('.note-ID');
+    const noteId = idElement.textContent;
+    try {
+        const response = await fetch(`/data/${noteId}`, {
+            method: "DELETE",
+        });
+        if (response.ok) {
+            recordRow.remove()
+            console.log("Note deleted");
+        }
+    } catch (error) {
+        console.error("Error deleting data:", error);
+    }
+}
 
 // 4. edit button - when click edit button, allow user to update note details 
 // function editRecord(button) {

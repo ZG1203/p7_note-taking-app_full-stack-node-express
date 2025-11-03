@@ -53,7 +53,7 @@ app.post("/data", (req, res) => {
   res.json({ message: "Data saved successfully", data: newData });
 });
 
-// add a row to the note table, get the last note ID and use next sequential number as note ID
+// when add a row to the note table, get the last note ID and use next sequential number as note ID
 function nextNoteId () {
     const noteIdList = document.querySelectorAll(".note-ID");
     const noteIdValues = []
@@ -70,7 +70,29 @@ function nextNoteId () {
     return newNoteID
 }
 
+// DELETE request to delete data by ID
+app.delete("/data/:id",(req,res) => {
+  const data = readData();
+  const index = data.findIndex((item) =>item.id === parseInt(req.params.id));
+  if (index === -1) {
+    return res.status(404).json({message:"Data not found"});
+  }
+  const deletedItem = data.splice(index, 1)[0];
+  writeData(data);
+  res.json({message:"data deleted successfully", data: data[0]});
+});
 
+// PUT request to update data by ID
+app.put("/data/:id",(req,res) => {
+  const data = readData();
+  const index = data.findIndex((item) =>item.id === parseInt(req.params.id));
+  if (index === -1) {
+    return res.status(404).json({message:"Data not found"});
+  }
+  data[index] = { id:req.params.id, ...req.body };
+  writeData(data);
+  res.json({message:"data updated successfully", data: data[index]});
+});
 
 // Start the server and listen on the specified port
 app.listen(PORT, () => {
