@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
         const response = await fetch("/data");
         const data = await response.json();
-        noteList.innerHTML = ""; // Clear the list before rendering
+        noteList.innerHTML = ""; 
         data.forEach((item) => {
         const record = document.createElement("tr");
         record.innerHTML = `
@@ -14,12 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
             <td class="note-detail">${item.detail}</td>
             <td>
                 <div class="button-container">
-                    <button class="btn btn-edit btn-sm btn-primary w-100 deleteButton" onclick="deleteRecord(this)">Delete</button>
+                    <button class="btn btn-delete btn-sm btn-primary w-100 deleteButton" onclick="deleteRecord(this)">Delete</button>
                 </div>
             </td>
             <td>
                 <div class="button-container">
-                    <button class="btn btn-delete btn-sm btn-primary w-100 editButton" onclick="editRecord(this)">Edit</button>
+                    <button class="btn btn-edit btn-sm btn-primary w-100 editButton" onclick="editRecord(this)">Edit</button>
                 </div>
             </td>
         `;
@@ -53,9 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (response.ok) {
-            fillDate.value = '';// Clear input date field
-            noteDetails.value = '';// Clear input note field
-            fetchData(); // Refresh the list
+            fillDate.value = '';
+            noteDetails.value = '';
+            fetchData(); 
         }
         } catch (error) {
         console.error("Error adding data:", error);
@@ -100,9 +100,7 @@ function checkNoteDetail () {
 
 // delete button - when click delete button, delete the record from json
 async function deleteRecord(button) {
-    const buttonElement= button.parentElement; 
-    const tableElement = buttonElement.parentElement;
-    const recordRow = tableElement.parentElement;
+    const recordRow = button.closest('tr');
     const idElement = recordRow.querySelector('.note-ID');
     const noteId = idElement.textContent;
     try {
@@ -119,26 +117,46 @@ async function deleteRecord(button) {
 }
 
 // 4. edit button - when click edit button, allow user to update note details 
-// function editRecord(button) {
-//     const buttonElement = button.parentElement; 
-//     const tableElement = buttonElement.parentElement;
-//     const recordRow = tableElement.parentElement;
-//     editNoteDetail(recordRow);
-// }
+async function editRecord(button) {
+    const recordRow = button.closest('tr');
+    const idElement = recordRow.querySelector('.note-ID');
+    const noteId = idElement.textContent;
+    const noteDetail = recordRow.cells[2].textContent;
+    const newNoteDetail = prompt('Enter new note detail:');
+    const newNote = {
+        detail: newNoteDetail.trim()
+    };
+
+    if (!editNoteDetail(newNoteDetail,noteDetail)) {
+       return false;
+    }
+    try {
+        const response = await fetch(`/data/${noteId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newNote),
+        });
+        if (response.ok) {
+            recordRow.cells[2].textContent = newNoteDetail.trim();
+            console.log("Note updated");
+        }
+    } catch (error) {
+        console.error("Error updating data:", error);
+    }
+}
 
 // edit task detail, check if new task detail is same as original value. 
-// function editNoteDetail(recordRow) {
-//     const noteDetail = recordRow.cells[2];
-//     const newNoteDetail = prompt ( 'Edit task detail:', noteDetail.textContent);
-//     if (newNoteDetail !== null && newNoteDetail.trim() !=='' ) {
-//         if (newNoteDetail == noteDetail.textContent) {
-//             alert('Note content is not changed')
-//         } else {
-//             noteDetail.textContent = newNoteDetail.trim();
-//             alert('Note content is updated')
-//         }
-//     } else {
-//         alert ('No new note content is filled; task detail is not changed')
-//     }
-// }
+function editNoteDetail(newNoteDetail,noteDetail) {
+    if (newNoteDetail !== null && newNoteDetail.trim() !=='' ) {
+        if (newNoteDetail == noteDetail) {
+            alert('Note content is not changed');
+            return false
+        } else {
+            return true
+        }
+    } else {
+        alert ('No new note content is filled; task detail is not changed');
+        return false
+    }
+}
 
